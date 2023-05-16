@@ -113,7 +113,20 @@ def get_produtos(id_empresa):
 
 @bp.route('/categoria/<id_categoria>',methods=['GET'])
 def get_empresas_by_zone(id_categoria):
-    pass
+    id_categoria = int(id_categoria)
+    try:
+        queries = models.db.session.execute(
+        models.db.select(models.Empresa)
+        .where(
+            (models.Empresa.zone == id_categoria) |
+            (models.Empresa.zone2 == id_categoria) |
+            (models.Empresa.zone3 == id_categoria)
+        )
+    ).scalars()
+        empresas_dict = [empresa.to_dict() for empresa in queries]
+        return make_response(empresas_dict,200)
+    except Exception as e:
+        return make_response(str(e),500)
 
 @bp.route('/login',methods=['POST'])
 def login():
