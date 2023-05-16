@@ -17,25 +17,27 @@ export function Login() {
             type="email"
             placeholder="EMAIL"
             className="text-sm rounded-lg outline-none placeholder:text-black placeholder:opacity-50 placeholder:pl-2 placeholder:font-semibold border-b-[3px] border-black bg-gray-100"
+            required
           />
           <input
             type="email"
             placeholder="SENHA"
             className=" w-[230px] text-sm rounded-lg outline-none placeholder:text-black placeholder:opacity-50 placeholder:pl-2 placeholder:font-semibold border-b-[3px] border-black  bg-gray-100"
+            required
           />
+          <div className='flex flex-col items-center pt-14'>
+            <button
+              className=" rounded-lg border-y-[3px] border-black w-[200px] h-[52px] font-bold"
+                >
+                ENTRAR
+            </button>
+          </div>
         </form>
 
-        <div>
-            <div className='flex flex-col items-center pt-4'>
-                <button
-                    className=" rounded-lg border-y-[3px] border-black w-[200px] h-[52px] font-bold"
-                >
-                        ENTRAR
-                </button>
+        <div className='flex flex-col items-center justify-center pt-6 '>
                 <div className='pt-2'>
-                    <Link to={'/'} className='font-bold text-xs border-b-2 border-black'>REGISTRAR</Link>
+                    <Link to={'/signUp'} className='font-bold text-xs border-b-2 border-black'>REGISTRAR</Link>
                 </div>  
-            </div>
 
             <div className='flex flex-row space-x-8 pt-2'>
                 <div> 
