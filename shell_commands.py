@@ -1,5 +1,6 @@
 from models import db
 from flask.cli import AppGroup, with_appcontext
+import sqlite3
 from flask import Blueprint
 import click
 
@@ -13,6 +14,22 @@ def create_database():
                 print("Conexão com o banco de dados estabelecida com sucesso!")
             except Exception as e:
                 print("Erro ao conectar-se ao banco de dados:", e)
+
+@users_cli.command('alter_table')
+@click.argument('column_name')
+@with_appcontext
+def alter_table(column_name):
+       try:
+             with sqlite3.connect(db) as conex:
+                sql_string = f"ALTER TABLE users ADD COLUMN {column_name} TEXT;"
+                cur = conex.cursor()
+                cur.execute(sql_string)
+                conex.commit()
+                return f"Coluna: {column_name} foi adicionada com sucesso"
+       except:
+             return "Fracasso em adicionar nova coluna"
+        
+
 
 '''
 @users_cli.command("create_user")

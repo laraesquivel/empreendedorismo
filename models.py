@@ -30,6 +30,7 @@ class Pessoa(db.Model):
     cep = Column(String(8),nullable=False)
     another_reference = Column(String(10))
     cellphone_zap = Column(String(13))
+    email = Column(String(100))
    # autority = Column(Boolean,nullable=False)
     bairro_id = Column(Integer,ForeignKey('bairro.bairro_id'),nullable=False)
     id = Column(Integer,primary_key=True,autoincrement=True)

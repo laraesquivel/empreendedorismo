@@ -37,13 +37,18 @@ def cadastrar_user():
     user = models.Pessoa(cpf=data['cpf'],name=data['name'],street=data['street'],n_house=data['n_house'],
                          cep=data['cep'],another_reference=data['another_reference'],
                          cellphone_zap=data['cellphone_zap'],
-                         bairro_id=data['bairro_id'])
+                         bairro_id=data['bairro_id'],email=data['email'])
     try:
         models.db.session.add(user)
+        models.db.session.commit()
+        user_id = models.db.session.execute(models.db.select(models.Pessoa.id).where(models.Pessoa.cpf==data['cpf'])).fetchone()[0]
+        session = models.Session(user_id=user_id,senha=data['senha'])
+        models.db.session.add(session)
         models.db.session.commit()
         return make_response(jsonify(data),201)
     except Exception as e:
         print(e)
+        e = "Nao foi possivel realizar cadastro"
         return make_response(e,500)
     
 @bp.route('/getUsers',methods=['GET'])
@@ -106,5 +111,28 @@ def get_produtos(id_empresa):
     except Exception as e:
         return make_response(str(e),500)
 
+@bp.route('/categoria/<id_categoria>',methods=['GET'])
+def get_empresas_by_zone(id_categoria):
+    pass
 
+@bp.route('/login',methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data['email']
+    senha = data['senha']
+    try:
+        user_id = models.db.session.execute(models.db.select(models.Pessoa.id).where(models.Pessoa.email==email)).fetchone()
+        if type(user_id) is not None:
+            print(user_id[0])
+            senha_t = models.db.session.execute(models.db.select(models.Session.senha).where(models.Session.user_id==user_id[0])).fetchone()
+            print(senha_t)
+            print(senha_t[0])
+            if ( not (senha_t is None) and senha_t[0]==senha):
+                return make_response("Login realizado com sucesso",200)
+            else:
+                return make_response("Senha incorreta",401)
+        else:
+            return make_response("Email não cadastrado, verifique o seu email",400)
+    except Exception as e:
+        return make_response(str(e),500)
 
