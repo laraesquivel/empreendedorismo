@@ -1,0 +1,13 @@
+1 - Alimentos
+2 - Serviços Faxina
+3 - Serviços de Software
+4 -
+
+py -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+
+$env:FLASK_APP="app"
+$env:FLASK_DEBUG="True"
+
+flask run
